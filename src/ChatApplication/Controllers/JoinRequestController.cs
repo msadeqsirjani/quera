@@ -1,14 +1,15 @@
-﻿using System.Collections;
-using ChatApplication.Application.Services;
+﻿using ChatApplication.Application.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using ChatApplication.Application.Extensions;
+using ChatApplication.Application.ViewModels.Authentication;
+using ChatApplication.Application.ViewModels.General;
 using ChatApplication.Application.ViewModels.JoinRequest;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace ChatApplication.Controllers;
 
-[Route("api/v1/join-requests")] 
+[Route("api/v1/join-requests")]
 [Authorize]
 public class JoinRequestController : HomeController
 {
@@ -23,6 +24,8 @@ public class JoinRequestController : HomeController
     /// Get join requests of user
     /// </summary>
     /// <returns></returns>
+    /// <response code="200">List of user's join requests. (Newest first)</response>
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(JoinRequestDto))]
     [HttpGet]
     public async Task<IActionResult> ShowJoinRequest()
     {
@@ -37,6 +40,10 @@ public class JoinRequestController : HomeController
     /// Send join request to a group
     /// </summary>
     /// <returns></returns>
+    /// <response code="200">Request has been sent!</response>
+    /// <response code="400">Request failed! (User is already member of a group)</response>
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(MessageDto))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(FailError))]
     [HttpPost]
     public async Task<IActionResult> SendJoinRequest(SendJoinRequestDto parameter)
     {
@@ -51,6 +58,10 @@ public class JoinRequestController : HomeController
     /// Get join requests of user's group
     /// </summary>
     /// <returns></returns>
+    /// <response code="200">List of user's join requests. (Newest first)</response>
+    /// <response code="400">Fetch failed (User doesn't have essential permissions)</response>
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(JoinRequestDto))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(FailError))]
     [HttpGet("group")]
     public async Task<IActionResult> Group()
     {
@@ -66,6 +77,10 @@ public class JoinRequestController : HomeController
     /// </summary>
     /// <param name="parameter"></param>
     /// <returns></returns>
+    /// <response code="200">User joined the group</response>
+    /// <response code="400">Acceptance failed! (User is already member of a group or acceptor doesn't have right permissions to accept request)</response>
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(MessageDto))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(FailError))]
     [HttpPost("accept")]
     public async Task<IActionResult> Accept(AcceptJoinRequestDto parameter)
     {

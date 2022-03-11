@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ChatApplication.Application.ViewModels.GroupMember;
-using Microsoft.Identity.Client;
+﻿using ChatApplication.Application.ViewModels.GroupMember;
 
-namespace ChatApplication.Application.ViewModels.Group
+namespace ChatApplication.Application.ViewModels.Group;
+
+public class MyGroupGetDto
 {
-    public class MyGroupGetDto
-    {
-        public string Name { get; set; }
-        public string? Description { get; set; }
-        public IEnumerable<GroupMemberDto> Members { get; set; }
-    }
+    public string Name { get; set; }
+    public string? Description { get; set; }
+    public IEnumerable<GroupMemberDto> Members { get; set; }
 }

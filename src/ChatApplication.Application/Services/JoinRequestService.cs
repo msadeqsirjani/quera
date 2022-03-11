@@ -64,7 +64,7 @@ public class JoinRequestService : ServiceAsync<JoinRequest>, IJoinRequestService
 
         if (await Repository.ExistsAsync(x => x.GroupId == parameter.GroupId && x.MemberId == memberId,
                 cancellationToken))
-            return Result.WithSuccess(new { Message = "Successful" });
+            return Result.WithException(new FailError(Statement.Failure));
 
         var joinRequest = new JoinRequest
         {
