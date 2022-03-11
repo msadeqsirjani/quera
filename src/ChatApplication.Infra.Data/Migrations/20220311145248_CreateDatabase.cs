@@ -36,7 +36,8 @@ namespace ChatApplication.Infra.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SourceMemberId = table.Column<int>(type: "int", nullable: false),
-                    TargetMemberId = table.Column<int>(type: "int", nullable: false)
+                    TargetMemberId = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -86,8 +87,10 @@ namespace ChatApplication.Infra.Data.Migrations
                 schema: "Chat",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ChatRoomId = table.Column<int>(type: "int", nullable: false),
+                    SenderId = table.Column<int>(type: "int", nullable: false),
                     Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -95,10 +98,17 @@ namespace ChatApplication.Infra.Data.Migrations
                 {
                     table.PrimaryKey("PK_Chats", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Chats_ChatRooms_Id",
-                        column: x => x.Id,
+                        name: "FK_Chats_ChatRooms_ChatRoomId",
+                        column: x => x.ChatRoomId,
                         principalSchema: "Chat",
                         principalTable: "ChatRooms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Chats_Members_SenderId",
+                        column: x => x.SenderId,
+                        principalSchema: "Chat",
+                        principalTable: "Members",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -196,6 +206,18 @@ namespace ChatApplication.Infra.Data.Migrations
                 schema: "Chat",
                 table: "ChatRooms",
                 column: "TargetMemberId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Chats_ChatRoomId",
+                schema: "Chat",
+                table: "Chats",
+                column: "ChatRoomId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Chats_SenderId",
+                schema: "Chat",
+                table: "Chats",
+                column: "SenderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ConnectionRequests_SourceGroupId",

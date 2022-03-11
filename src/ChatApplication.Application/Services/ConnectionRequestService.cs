@@ -61,7 +61,7 @@ public class ConnectionRequestService : ServiceAsync<ConnectionRequest>, IConnec
 
         if (await Repository.ExistsAsync(x => x.SourceGroupId == group.Id && x.TargetGroupId == parameter.GroupId,
                 cancellationToken))
-            Result.WithSuccess(new { Message = "Successful" });
+            return Result.WithSuccess(new { Message = "Successful" });
 
         var connectionRequest = new ConnectionRequest()
         {

@@ -15,6 +15,8 @@ public class ChatConfiguration : EntityConfiguration<Chat>
 
         builder.Property(x => x.ChatRoomId); 
 
+        builder.Property(x => x.SenderId); 
+
         builder.Property(x => x.Message);
 
         builder.Property(x => x.Date);

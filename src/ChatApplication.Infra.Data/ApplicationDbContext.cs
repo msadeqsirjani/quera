@@ -17,6 +17,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<JoinRequest> JoinRequests { get; set; }
     public DbSet<ConnectionRequest> ConnectionRequests { get; set; }
     public DbSet<Chat> Chats { get; set; }
+    public DbSet<ChatRoom> ChatRooms { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

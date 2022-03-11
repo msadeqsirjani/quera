@@ -11,6 +11,7 @@ public class ChatRoom : Entity
 
     public int SourceMemberId { get; set; }
     public int TargetMemberId { get; set; }
+    public DateTime Date { get; set; }
 
     public Member SourceMember { get; set; }
     public Member TargetMember { get; set; }

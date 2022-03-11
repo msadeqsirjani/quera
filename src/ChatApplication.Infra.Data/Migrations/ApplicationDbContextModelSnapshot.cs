@@ -25,7 +25,10 @@ namespace ChatApplication.Infra.Data.Migrations
             modelBuilder.Entity("ChatApplication.Domain.Entities.Chat", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("ChatRoomId")
                         .HasColumnType("int");
@@ -37,7 +40,14 @@ namespace ChatApplication.Infra.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("SenderId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ChatRoomId");
+
+                    b.HasIndex("SenderId");
 
                     b.ToTable("Chats", "Chat");
                 });
@@ -49,6 +59,9 @@ namespace ChatApplication.Infra.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("SourceMemberId")
                         .HasColumnType("int");
@@ -198,11 +211,19 @@ namespace ChatApplication.Infra.Data.Migrations
                 {
                     b.HasOne("ChatApplication.Domain.Entities.ChatRoom", "ChatRoom")
                         .WithMany("Chats")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("ChatRoomId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ChatApplication.Domain.Entities.Member", "Sender")
+                        .WithMany()
+                        .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ChatRoom");
+
+                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("ChatApplication.Domain.Entities.ChatRoom", b =>
