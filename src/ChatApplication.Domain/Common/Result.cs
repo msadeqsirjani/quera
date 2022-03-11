@@ -20,7 +20,9 @@ public class Result
     public ResultMode ResultMode { get; }
     public dynamic Value { get; }
     public string? Message { get; }
+    public bool IsSuccess => ResultMode == ResultMode.Success;
 
+    public static Result WithResult(dynamic value, ResultMode resultMode) => new(resultMode, value, null);
     public static Result WithSuccess() => new(ResultMode.Success, null, null);
     public static Result WithSuccess(dynamic value) => new(ResultMode.Success, value, null);
     public static Result WithSuccess(dynamic value, string message) => new(ResultMode.Success, value, message);

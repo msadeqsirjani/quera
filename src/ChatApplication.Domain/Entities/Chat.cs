@@ -8,7 +8,7 @@ public class Chat : Entity
     public int TargetMemberId { get; set; }
     public string Message { get; set; } = null!;
 
-    public Member SourceMember { get; set; } = null!;
-    public Member TargetMember { get; set; } = null!;
+    public Member SourceMember { get; set; }
+    public Member TargetMember { get; set; }
 
 }

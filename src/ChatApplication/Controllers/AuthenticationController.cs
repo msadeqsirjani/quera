@@ -1,4 +1,6 @@
-﻿    using Microsoft.AspNetCore.Authorization;
+﻿    using ChatApplication.Application.Services;
+    using ChatApplication.Application.ViewModels.Authentication;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     namespace ChatApplication.Controllers; 
@@ -7,15 +9,26 @@
     [AllowAnonymous]
     public class AuthenticationController : HomeController
     {
-        [HttpPost("signup")]
-        public async Task<IActionResult> SignIn()
+        private readonly IMemberService _memberService;
+
+        public AuthenticationController(IMemberService memberService)
         {
-            return Ok();
+            _memberService = memberService;
+        }
+
+        [HttpPost("signup")]
+        public async Task<IActionResult> SignIn(SignInDto parameter)
+        {
+            var result = await _memberService.SignInAsync(parameter);
+
+            return !result.IsSuccess ? (IActionResult)BadRequest(result.Value) : (IActionResult)Ok(result.Value);
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login()
+        public async Task<IActionResult> Login(LoginDto parameter)
         {
-            return Ok();
+            var result = await _memberService.LoginAsync(parameter);
+
+            return !result.IsSuccess ? (IActionResult)BadRequest(result.Value) : (IActionResult)Ok(result.Value);
         }
     }

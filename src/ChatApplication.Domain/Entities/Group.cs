@@ -8,7 +8,6 @@ public class Group : Entity
     {
         GroupMembers = new List<GroupMember>();
         SourceConnectionRequests  = new List<ConnectionRequest>();
-        TargetConnectionRequests  = new List<ConnectionRequest>();
         JoinRequests = new List<JoinRequest>();
     }
 
@@ -19,6 +18,5 @@ public class Group : Entity
     public Member Member { get; set; }
     public ICollection<GroupMember> GroupMembers { get; set; }
     public ICollection<ConnectionRequest> SourceConnectionRequests { get; set; }
-    public ICollection<ConnectionRequest> TargetConnectionRequests { get; set; }
     public ICollection<JoinRequest> JoinRequests { get; set; }
 }

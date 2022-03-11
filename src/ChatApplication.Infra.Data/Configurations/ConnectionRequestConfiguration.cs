@@ -21,9 +21,5 @@ public class ConnectionRequestConfiguration : EntityConfiguration<ConnectionRequ
         builder.HasOne(x => x.SourceGroup)
             .WithMany(x => x.SourceConnectionRequests)
             .HasForeignKey(x => x.SourceGroupId);
-
-        builder.HasOne(x => x.TargetGroup)
-            .WithMany(x => x.TargetConnectionRequests)
-            .HasForeignKey(x => x.TargetGroupId);
     }
 }

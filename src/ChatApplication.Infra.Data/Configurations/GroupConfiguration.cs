@@ -28,5 +28,9 @@ public class GroupConfiguration : EntityConfiguration<Group>
         builder.HasOne(x => x.Member)
             .WithOne(x => x.Group)
             .HasForeignKey<Group>(x => x.Administrator);
+
+        builder.HasMany(x => x.SourceConnectionRequests)
+            .WithOne(x => x.SourceGroup)
+            .HasForeignKey(x => x.SourceGroupId);
     }
 }

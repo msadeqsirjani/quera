@@ -5,6 +5,7 @@ using System.Text;
 using ChatApplication.Application.Constants;
 using ChatApplication.Application.Exceptions;
 using ChatApplication.Application.Extensions;
+using ChatApplication.Application.Services;
 using ChatApplication.Application.Settings;
 using ChatApplication.Domain.Common;
 using ChatApplication.Infra.Data;
@@ -16,6 +17,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using ChatApplication.Application.Services.Common;
+using ChatApplication.Domain.Repositories;
+using ChatApplication.Domain.Repositories.Common;
+using ChatApplication.Infra.Data.Common;
+using ChatApplication.Infra.Data.Repositories;
 
 namespace ChatApplication.Infra.IoC;
 
@@ -43,10 +49,26 @@ public static class DependencyContainer
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-        services.Scan(scan => 
-            scan.FromCallingAssembly()                    
-                .AddClasses()
-                .AsMatchingInterface());
+        services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+        services.AddTransient(typeof(IRepositoryAsync<>), typeof(RepositoryAsync<>));
+        services.AddTransient<IUnitOfWork, UnitOfWork>();
+        services.AddTransient<IUnitOfWorkAsync, UnitOfWorkAsync>();
+        services.AddTransient(typeof(IService<>), typeof(Service<>));
+        services.AddTransient(typeof(IServiceAsync<>), typeof(ServiceAsync<>));
+        services.AddTransient<IChatRepository, ChatRepository>();
+        services.AddTransient<IChatService, ChatService>();
+        services.AddTransient<IConnectionRequestRepository, ConnectionRequestRepository>();
+        services.AddTransient<IConnectionRequestService, ConnectionRequestService>();
+        services.AddTransient<IGroupMemberRepository, GroupMemberRepository>();
+        services.AddTransient<IGroupMemberService, GroupMemberService>();
+        services.AddTransient<IGroupRepository, GroupRepository>();
+        services.AddTransient<IGroupService, GroupService>();
+        services.AddTransient<IJoinRequestRepository, JoinRequestRepository>();
+        services.AddTransient<IJoinRequestService, JoinRequestService>();
+        services.AddTransient<ILogService, LogService>();
+        services.AddTransient<IJwtService, JwtService>();
+        services.AddTransient<IMemberRepository, MemberRepository>();
+        services.AddTransient<IMemberService, MemberService>();
 
         services.Configure<JwtSetting>(configuration.GetSection("JwtSetting"));
 

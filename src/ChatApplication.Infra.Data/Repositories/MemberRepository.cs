@@ -4,9 +4,9 @@ using ChatApplication.Infra.Data.Common;
 
 namespace ChatApplication.Infra.Data.Repositories;
 
-public class ConnectionRepository : RepositoryAsync<ConnectionRequest>, IConnectionRequestRepository
+public class MemberRepository : RepositoryAsync<Member>, IMemberRepository
 {
-    public ConnectionRepository(ApplicationDbContext context) : base(context)
+    public MemberRepository(ApplicationDbContext context) : base(context)
     {
     }
 }
