@@ -39,7 +39,7 @@ public class GroupController : HomeController
     {
         var memberId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value.ToInt32();
 
-        var result = await _groupService.CreateGroupAsync(memberId.Value, parameter);
+        var result = await _groupService.CreateGroupAsync(memberId!.Value, parameter);
 
         return !result.IsSuccess ? (IActionResult)BadRequest(result.Value) : (IActionResult)Ok(result.Value);
     }
@@ -53,7 +53,7 @@ public class GroupController : HomeController
     {
         var memberId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value.ToInt32();
 
-        var result = await _groupService.ShowMyGroupsAsync(memberId.Value);
+        var result = await _groupService.ShowMyGroupsAsync(memberId!.Value);
 
         return Ok(result.Value);
     }

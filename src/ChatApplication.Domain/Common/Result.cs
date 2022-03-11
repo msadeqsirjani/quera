@@ -22,7 +22,6 @@ public class Result
     public string? Message { get; }
     public bool IsSuccess => ResultMode == ResultMode.Success;
 
-    public static Result WithResult(dynamic value, ResultMode resultMode) => new(resultMode, value, null);
     public static Result WithSuccess() => new(ResultMode.Success, null, null);
     public static Result WithSuccess(dynamic value) => new(ResultMode.Success, value, null);
     public static Result WithSuccess(dynamic value, string message) => new(ResultMode.Success, value, message);
@@ -31,4 +30,5 @@ public class Result
     public static Result WithException() => new(ResultMode.Exception, null, null);
     public static Result WithException(string message) => new(ResultMode.Exception, null, message);
     public static Result WithException(Exception exception) => new(ResultMode.Exception, exception, exception.Message);
+    public static Result WithException(dynamic exception) => new(ResultMode.Exception, exception, null);
 }

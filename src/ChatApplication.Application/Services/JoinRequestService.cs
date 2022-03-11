@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using ChatApplication.Application.Constants;
 using ChatApplication.Application.Services.Common;
 using ChatApplication.Application.ViewModels.Authentication;
 using ChatApplication.Application.ViewModels.JoinRequest;
@@ -52,7 +53,7 @@ public class JoinRequestService : ServiceAsync<JoinRequest>, IJoinRequestService
 
         return values.Any()
             ? Result.WithSuccess(new { JoinRequests = values })
-            : Result.WithResult(new FailError("Bad request!"), ResultMode.Exception);
+            : Result.WithException(new FailError(Statement.Failure));
     }
 
     public async Task<Result> SendJoinRequestAsync(int memberId, SendJoinRequestDto parameter,
@@ -60,10 +61,11 @@ public class JoinRequestService : ServiceAsync<JoinRequest>, IJoinRequestService
     {
         var group = await _groupRepository.FirstOrDefaultAsync(x => x.Id == parameter.GroupId, cancellationToken);
         if (group == null || group.Administrator == memberId)
-            return Result.WithResult(new FailError("Bad request!"), ResultMode.Exception);
+            return Result.WithException(new FailError(Statement.Failure));
 
-        if (await Repository.ExistsAsync(x => x.MemberId == memberId, cancellationToken))
-            return Result.WithResult(new FailError("Bad request!"), ResultMode.Exception);
+        if (await Repository.ExistsAsync(x => x.GroupId == parameter.GroupId && x.MemberId == memberId,
+                cancellationToken))
+            Result.WithSuccess(new { Message = "Successful" });
 
         var joinRequest = new JoinRequest
         {
@@ -99,7 +101,7 @@ public class JoinRequestService : ServiceAsync<JoinRequest>, IJoinRequestService
 
         return values.Any()
             ? Result.WithSuccess(new { JoinRequests = values })
-            : Result.WithResult(new FailError("Bad request!"), ResultMode.Exception);
+            : Result.WithException(new FailError(Statement.Failure));
     }
 
     public async Task<Result> AcceptJoinRequestAsync(int memberId, AcceptJoinRequestDto parameter,
@@ -111,13 +113,13 @@ public class JoinRequestService : ServiceAsync<JoinRequest>, IJoinRequestService
             await Repository.DeleteAsync(parameter.JoinRequestId, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return Result.WithResult(new FailError("Bad request!"), ResultMode.Exception);
+            return Result.WithException(new FailError(Statement.Failure));
         }
 
         var joinRequest = await Repository.FirstOrDefaultAsync(x => x.Id == parameter.JoinRequestId, cancellationToken);
 
         if (joinRequest == null)
-            return Result.WithResult(new FailError("Bad request!"), ResultMode.Exception);
+            return Result.WithException(new FailError(Statement.Failure));
 
         var groupMember = new GroupMember()
         {

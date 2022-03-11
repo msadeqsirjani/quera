@@ -28,7 +28,7 @@ public class JoinRequestController : HomeController
     {
         var memberId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value.ToInt32();
 
-        var result = await _joinRequestService.ShowMyJoinRequestAsync(memberId.Value);
+        var result = await _joinRequestService.ShowMyJoinRequestAsync(memberId!.Value);
 
         return !result.IsSuccess ? BadRequest(result.Value) : Ok(result.Value);
     }
@@ -42,7 +42,7 @@ public class JoinRequestController : HomeController
     {
         var memberId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value.ToInt32();
 
-        var result = await _joinRequestService.SendJoinRequestAsync(memberId.Value, parameter);
+        var result = await _joinRequestService.SendJoinRequestAsync(memberId!.Value, parameter);
 
         return !result.IsSuccess ? (IActionResult)BadRequest(result.Value) : (IActionResult)Ok(result.Value);
     }
@@ -56,7 +56,7 @@ public class JoinRequestController : HomeController
     {
         var memberId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value.ToInt32();
 
-        var result = await _joinRequestService.ShowJoinRequestToGroupsAsync(memberId.Value);
+        var result = await _joinRequestService.ShowJoinRequestToGroupsAsync(memberId!.Value);
 
         return !result.IsSuccess ? BadRequest(result.Value) : Ok(result.Value);
     }
@@ -71,7 +71,7 @@ public class JoinRequestController : HomeController
     {
         var memberId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value.ToInt32();
 
-        var result = await _joinRequestService.AcceptJoinRequestAsync(memberId.Value, parameter);
+        var result = await _joinRequestService.AcceptJoinRequestAsync(memberId!.Value, parameter);
 
         return !result.IsSuccess ? BadRequest(result.Value) : Ok(result.Value);
     }

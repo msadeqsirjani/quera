@@ -4,6 +4,7 @@ using ChatApplication.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChatApplication.Infra.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220311131143_Update-Database-2")]
+    partial class UpdateDatabase2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,7 +75,7 @@ namespace ChatApplication.Infra.Data.Migrations
 
                     b.HasIndex("SourceGroupId");
 
-                    b.ToTable("ConnectionRequests", "Chat");
+                    b.ToTable("ConnectionRequests");
                 });
 
             modelBuilder.Entity("ChatApplication.Domain.Entities.Group", b =>
@@ -148,7 +150,7 @@ namespace ChatApplication.Infra.Data.Migrations
 
                     b.HasIndex("MemberId");
 
-                    b.ToTable("JoinRequests", "Chat");
+                    b.ToTable("JoinRequests");
                 });
 
             modelBuilder.Entity("ChatApplication.Domain.Entities.Member", b =>

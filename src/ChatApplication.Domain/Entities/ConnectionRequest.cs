@@ -6,6 +6,7 @@ public class ConnectionRequest : Entity
 {
     public int SourceGroupId { get; set; }
     public int TargetGroupId { get; set; }
+    public bool Accepted { get; set; }
     public DateTime Date { get; set; }
 
     public Group SourceGroup { get; set; }

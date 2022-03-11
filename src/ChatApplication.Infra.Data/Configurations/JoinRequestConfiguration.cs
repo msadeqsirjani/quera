@@ -1,5 +1,6 @@
 ﻿using ChatApplication.Domain.Entities;
 using ChatApplication.Infra.Data.Configurations.Common;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ChatApplication.Infra.Data.Configurations;
@@ -9,6 +10,8 @@ public class JoinRequestConfiguration : EntityConfiguration<JoinRequest>
     public override void Configure(EntityTypeBuilder<JoinRequest> builder)
     {
         base.Configure(builder);
+
+        builder.ToTable("JoinRequests", Constant.Schema);
 
         builder.Property(x => x.GroupId);
 
