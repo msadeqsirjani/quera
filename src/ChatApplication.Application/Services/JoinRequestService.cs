@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using ChatApplication.Application.Constants;
+﻿using ChatApplication.Application.Constants;
 using ChatApplication.Application.Services.Common;
 using ChatApplication.Application.ViewModels.Authentication;
 using ChatApplication.Application.ViewModels.JoinRequest;

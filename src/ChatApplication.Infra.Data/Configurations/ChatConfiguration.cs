@@ -13,20 +13,14 @@ public class ChatConfiguration : EntityConfiguration<Chat>
 
         builder.ToTable("Chats", Constant.Schema);
 
-        builder.Property(x => x.SourceMemberId);
-
-        builder.Property(x => x.TargetMemberId);
+        builder.Property(x => x.ChatRoomId); 
 
         builder.Property(x => x.Message);
 
-        builder.HasOne(x => x.SourceMember)
-            .WithMany(x => x.SourceChats)
-            .HasForeignKey(x => x.SourceMemberId)
-            .OnDelete(DeleteBehavior.NoAction);
+        builder.Property(x => x.Date);
 
-        builder.HasOne(x => x.TargetMember)
-            .WithMany(x => x.TargetChats)
-            .HasForeignKey(x => x.TargetMemberId)
-            .OnDelete(DeleteBehavior.NoAction);
+        builder.HasOne(x => x.ChatRoom)
+            .WithMany(x => x.Chats)
+            .HasForeignKey(x => x.ChatRoomId);
     }
 }

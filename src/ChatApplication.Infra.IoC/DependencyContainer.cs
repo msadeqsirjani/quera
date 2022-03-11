@@ -69,6 +69,8 @@ public static class DependencyContainer
         services.AddTransient<IJwtService, JwtService>();
         services.AddTransient<IMemberRepository, MemberRepository>();
         services.AddTransient<IMemberService, MemberService>();
+        services.AddTransient<IChatRoomRepository, ChatRoomRepository>();
+        services.AddTransient<IChatRoomService, ChatRoomService>();
 
         services.Configure<JwtSetting>(configuration.GetSection("JwtSetting"));
 

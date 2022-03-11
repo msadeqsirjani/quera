@@ -8,8 +8,6 @@ public class Member : Entity
     {
         GroupMembers = new List<GroupMember>();
         JoinRequests = new List<JoinRequest>();
-        SourceChats = new List<Chat>();
-        TargetChats = new List<Chat>();
     }
 
     public string Name { get; set; } = null!;
@@ -19,6 +17,4 @@ public class Member : Entity
     public Group Group { get; set; }
     public ICollection<GroupMember> GroupMembers { get; set; }
     public ICollection<JoinRequest> JoinRequests { get; set; }
-    public ICollection<Chat> SourceChats { get; set; }
-    public ICollection<Chat> TargetChats { get; set; }
 }

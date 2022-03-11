@@ -35,13 +35,5 @@ public class MemberConfiguration : EntityConfiguration<Member>
         builder.HasMany(x => x.JoinRequests)
             .WithOne(x => x.Member)
             .HasForeignKey(x => x.MemberId);
-
-        builder.HasMany(x => x.SourceChats)
-            .WithOne(x => x.SourceMember)
-            .HasForeignKey(x => x.SourceMemberId);
-
-        builder.HasMany(x => x.TargetChats)
-            .WithOne(x => x.TargetMember)
-            .HasForeignKey(x => x.TargetMemberId);
     }
 }

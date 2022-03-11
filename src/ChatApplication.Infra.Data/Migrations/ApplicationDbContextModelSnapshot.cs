@@ -25,14 +25,30 @@ namespace ChatApplication.Infra.Data.Migrations
             modelBuilder.Entity("ChatApplication.Domain.Entities.Chat", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<int>("ChatRoomId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Message")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Chats", "Chat");
+                });
+
+            modelBuilder.Entity("ChatApplication.Domain.Entities.ChatRoom", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("SourceMemberId")
                         .HasColumnType("int");
@@ -46,7 +62,7 @@ namespace ChatApplication.Infra.Data.Migrations
 
                     b.HasIndex("TargetMemberId");
 
-                    b.ToTable("Chats", "Chat");
+                    b.ToTable("ChatRooms", "Chat");
                 });
 
             modelBuilder.Entity("ChatApplication.Domain.Entities.ConnectionRequest", b =>
@@ -180,16 +196,27 @@ namespace ChatApplication.Infra.Data.Migrations
 
             modelBuilder.Entity("ChatApplication.Domain.Entities.Chat", b =>
                 {
+                    b.HasOne("ChatApplication.Domain.Entities.ChatRoom", "ChatRoom")
+                        .WithMany("Chats")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("ChatRoom");
+                });
+
+            modelBuilder.Entity("ChatApplication.Domain.Entities.ChatRoom", b =>
+                {
                     b.HasOne("ChatApplication.Domain.Entities.Member", "SourceMember")
-                        .WithMany("SourceChats")
+                        .WithMany()
                         .HasForeignKey("SourceMemberId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ChatApplication.Domain.Entities.Member", "TargetMember")
-                        .WithMany("TargetChats")
+                        .WithMany()
                         .HasForeignKey("TargetMemberId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("SourceMember");
@@ -257,6 +284,11 @@ namespace ChatApplication.Infra.Data.Migrations
                     b.Navigation("Member");
                 });
 
+            modelBuilder.Entity("ChatApplication.Domain.Entities.ChatRoom", b =>
+                {
+                    b.Navigation("Chats");
+                });
+
             modelBuilder.Entity("ChatApplication.Domain.Entities.Group", b =>
                 {
                     b.Navigation("GroupMembers");
@@ -274,10 +306,6 @@ namespace ChatApplication.Infra.Data.Migrations
                     b.Navigation("GroupMembers");
 
                     b.Navigation("JoinRequests");
-
-                    b.Navigation("SourceChats");
-
-                    b.Navigation("TargetChats");
                 });
 #pragma warning restore 612, 618
         }

@@ -4,11 +4,9 @@ namespace ChatApplication.Domain.Entities;
 
 public class Chat : Entity
 {
-    public int SourceMemberId { get; set; }
-    public int TargetMemberId { get; set; }
+    public int ChatRoomId { get; set; }
     public string Message { get; set; } = null!;
+    public DateTime Date { get; set; }
 
-    public Member SourceMember { get; set; }
-    public Member TargetMember { get; set; }
-
+    public ChatRoom ChatRoom { get; set; }
 }

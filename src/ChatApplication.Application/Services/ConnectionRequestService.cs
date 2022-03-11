@@ -38,6 +38,7 @@ public class ConnectionRequestService : ServiceAsync<ConnectionRequest>, IConnec
 
         var connectionRequests = await Repository.Queryable(false)
             .Where(x => x.TargetGroupId == group.Id && !x.Accepted)
+            .OrderByDescending(x => x.Date)
             .ToListAsync(cancellationToken);
 
         var values = connectionRequests.Select(x => new
@@ -88,7 +89,7 @@ public class ConnectionRequestService : ServiceAsync<ConnectionRequest>, IConnec
                 x => x.TargetGroupId == group.Id && x.SourceGroupId == parameter.GroupId && !x.Accepted,
                 cancellationToken);
 
-        if(connectionRequest == null)
+        if (connectionRequest == null)
             return Result.WithException(new FailError(Statement.Failure));
 
         connectionRequest.Accepted = true;
