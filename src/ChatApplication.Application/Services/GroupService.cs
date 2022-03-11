@@ -33,15 +33,15 @@ public class GroupService : ServiceAsync<Group>, IGroupService
     {
         var groups = await Repository.Queryable(false)
             .OrderByDescending(x => x.Date)
-            .Select(x => new
+            .Select(x => new GroupGetDto()
             {
-                x.Id,
-                x.Name,
-                x.Description
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description
             })
             .ToListAsync(cancellationToken);
 
-        var values = new
+        var values = new GroupGetAllDto()
         {
             Groups = groups
         };
@@ -58,7 +58,6 @@ public class GroupService : ServiceAsync<Group>, IGroupService
             .Where(x => x.GroupMembers.Any(y => y.MemberId == memberId))
             .Select(x => new
             {
-                x.Id,
                 x.Name,
                 x.Description,
                 Members = x.GroupMembers.Select(y => new
@@ -73,7 +72,7 @@ public class GroupService : ServiceAsync<Group>, IGroupService
 
         var values = new
         {
-            Groups = groups
+            Group = groups.FirstOrDefault()
         };
 
         return Result.WithSuccess(values);

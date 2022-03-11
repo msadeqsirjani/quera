@@ -22,6 +22,8 @@ using ChatApplication.Domain.Repositories;
 using ChatApplication.Domain.Repositories.Common;
 using ChatApplication.Infra.Data.Common;
 using ChatApplication.Infra.Data.Repositories;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace ChatApplication.Infra.IoC;
 
@@ -43,6 +45,7 @@ public static class DependencyContainer
             .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
+        services.AddFluentValidationRulesToSwagger();
         services.AddOptions();
         services.AddMemoryCache();
 
@@ -134,6 +137,8 @@ public static class DependencyContainer
                 Version = "v1"
             });
 
+            options.ExampleFilters();
+
             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
@@ -168,6 +173,8 @@ public static class DependencyContainer
             var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
             options.IncludeXmlComments(xmlPath);
         });
+
+        services.AddSwaggerExamplesFromAssemblies(Assembly.GetExecutingAssembly());
     }
 
     public static void UseApplications(this WebApplication application)

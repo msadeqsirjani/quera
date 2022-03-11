@@ -2,6 +2,7 @@
     using ChatApplication.Application.ViewModels.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Swashbuckle.AspNetCore.Annotations;
 
     namespace ChatApplication.Controllers; 
 
@@ -20,7 +21,11 @@
         /// Sign up for new user
         /// </summary>
         /// <param name="parameter"></param>
+        /// <response code="200"><h2>important</h2> JWT must contains userId and email in payload</response>
+        /// <response code="400">Password is not valid, Email is already exist</response>
         /// <returns></returns>
+        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(AuthenticationSuccess))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(FailError))]
         [HttpPost("signup")]
         public async Task<IActionResult> SignIn(SignInDto parameter)
         {
@@ -33,7 +38,11 @@
         /// Login
         /// </summary>
         /// <param name="parameter"></param>
+        /// <response code="200"><h2>important</h2> JWT must contains userId and email in payload</response>
+        /// <response code="400">Authentication failed!</response>
         /// <returns></returns>
+        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(AuthenticationSuccess))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(FailError))]
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto parameter)
         {

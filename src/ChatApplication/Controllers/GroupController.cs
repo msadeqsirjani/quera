@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using ChatApplication.Application.Services;
+using ChatApplication.Application.ViewModels.Authentication;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace ChatApplication.Controllers;
 
@@ -20,7 +22,9 @@ public class GroupController : HomeController
     /// <summary>
     /// Get groups
     /// </summary>
+    /// <response code="200">Groups list</response>
     /// <returns></returns>
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(GroupGetAllDto))]
     [HttpGet]
     public async Task<IActionResult> ShowGroups()
     {
@@ -33,7 +37,11 @@ public class GroupController : HomeController
     /// Create a group
     /// </summary>
     /// <param name="parameter"></param>
+    /// <response code="200">Group successfully created!</response>
+    /// <response code="400">creation failed! (User is already member of a group)</response>
     /// <returns></returns>
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(CreateGroupResponseDto))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(FailError))]
     [HttpPost]
     public async Task<IActionResult> CreateGroup(CreateGroupDto parameter)
     {
@@ -47,7 +55,9 @@ public class GroupController : HomeController
     /// <summary>
     /// Get detailed information of group of user
     /// </summary>
+    /// <response code="200">Group</response>
     /// <returns></returns>
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(MyGroupMemberDto))]
     [HttpGet("my")]
     public async Task<IActionResult> My()
     {

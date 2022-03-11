@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using ChatApplication.Application.ViewModels.Chat;
+using System.Text.RegularExpressions;
+using ChatApplication.Application.ViewModels.Authentication;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace ChatApplication.Controllers;
 
