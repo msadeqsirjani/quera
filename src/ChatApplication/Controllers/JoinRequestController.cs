@@ -30,7 +30,7 @@ public class JoinRequestController : HomeController
 
         var result = await _joinRequestService.ShowMyJoinRequestAsync(memberId.Value);
 
-        return Ok(result.Value);
+        return !result.IsSuccess ? BadRequest(result.Value) : Ok(result.Value);
     }
 
     /// <summary>

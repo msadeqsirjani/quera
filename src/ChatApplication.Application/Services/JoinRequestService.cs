@@ -50,7 +50,9 @@ public class JoinRequestService : ServiceAsync<JoinRequest>, IJoinRequestService
             Date = x.Date.ToEpochTimeSpan().TotalSeconds
         });
 
-        return Result.WithSuccess(values);
+        return values.Any()
+            ? Result.WithSuccess(new { JoinRequests = values })
+            : Result.WithResult(new FailError("Bad request!"), ResultMode.Exception);
     }
 
     public async Task<Result> SendJoinRequestAsync(int memberId, SendJoinRequestDto parameter,
