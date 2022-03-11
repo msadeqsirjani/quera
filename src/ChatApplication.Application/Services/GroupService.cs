@@ -1,4 +1,6 @@
-﻿using ChatApplication.Application.Services.Common;
+﻿using ChatApplication.Application.Constants;
+using ChatApplication.Application.Services.Common;
+using ChatApplication.Application.ViewModels.Authentication;
 using ChatApplication.Application.ViewModels.Group;
 using ChatApplication.Domain.Common;
 using ChatApplication.Domain.Entities;
@@ -79,18 +81,12 @@ public class GroupService : ServiceAsync<Group>, IGroupService
 
     public async Task<Result> CreateGroupAsync(int memberId, CreateGroupDto parameter, CancellationToken cancellationToken = new())
     {
-        var group = await Repository.FirstOrDefaultAsync(x => x.Administrator == memberId, cancellationToken);
-        if(group != null)
-            return Result.WithSuccess(new
-            {
-                Group = new
-                {
-                    group.Id
-                },
-                Message = "Successful"
-            });
+        var memberOfGroup = await _groupMemberRepository.ExistsAsync(x => x.MemberId == memberId, cancellationToken);
 
-        group = new Group
+        if (memberOfGroup)
+            return Result.WithException(new FailError(Statement.Failure));
+
+        var group = new Group
         {
             Administrator = memberId,
             Name = parameter.Name,
