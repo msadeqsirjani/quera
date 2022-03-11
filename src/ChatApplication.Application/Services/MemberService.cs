@@ -31,7 +31,7 @@ public class MemberService : ServiceAsync<Member>, IMemberService
         if (await Repository.ExistsAsync(x => x.Email == parameter.Email, cancellationToken))
             return Result.WithResult(new DuplicateEmailError(new Error("Bad request!")), ResultMode.Exception);
 
-        var member = new Member()
+        var member = new Member
         {
             Name = parameter.Name,
             Email = parameter.Email,
@@ -52,7 +52,7 @@ public class MemberService : ServiceAsync<Member>, IMemberService
         var member = await Repository.FirstOrDefaultAsync(x => x.Email == parameter.Email, cancellationToken);
 
         if(member == null || member.Password != Security.Encrypt(parameter.Password))
-            return Result.WithResult(new FailError(new Error("Bad request!")), ResultMode.Exception);
+            return Result.WithResult(new FailError("Bad request!"), ResultMode.Exception);
 
         var token = _jwtService.GenerateJwtToken(member.Id, member.Email);
 

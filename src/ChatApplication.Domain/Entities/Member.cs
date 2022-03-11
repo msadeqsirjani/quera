@@ -1,5 +1,4 @@
-﻿using System.Security.Principal;
-using ChatApplication.Domain.Common;
+﻿using ChatApplication.Domain.Common;
 
 namespace ChatApplication.Domain.Entities;
 

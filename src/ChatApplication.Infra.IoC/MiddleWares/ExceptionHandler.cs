@@ -54,7 +54,7 @@ public class ExceptionHandler
                 _logService.LogError(exception);
 
                 return context.Response.WriteAsync(_environment.IsDevelopment()
-                    ? JsonConvert.SerializeObject(new FailError(new Error("Bad request!")))
+                    ? JsonConvert.SerializeObject(new FailError("Bad request!"))
                     : JsonConvert.SerializeObject(Result.WithException(Statement.Failure)));
         }
     }

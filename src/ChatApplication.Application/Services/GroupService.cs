@@ -79,7 +79,7 @@ public class GroupService : ServiceAsync<Group>, IGroupService
 
     public async Task<Result> CreateGroupAsync(int memberId, CreateGroupDto parameter, CancellationToken cancellationToken = new())
     {
-        var group = new Group()
+        var group = new Group
         {
             Administrator = memberId,
             Name = parameter.Name,
@@ -91,7 +91,7 @@ public class GroupService : ServiceAsync<Group>, IGroupService
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        var groupMember = new GroupMember()
+        var groupMember = new GroupMember
         {
             Id = group.Id,
             MemberId = memberId,

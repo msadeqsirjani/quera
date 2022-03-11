@@ -15,6 +15,7 @@ public class SignInDtoValidation : AbstractValidator<SignInDto>
         RuleFor(x=>x.Email)
             .NotNull().WithMessage("Email cannot be null")
             .NotEmpty().WithMessage("Email cannot be empty")
+            .EmailAddress().WithMessage("Email is not valid")
             .MaximumLength(255).WithMessage("Email is too long");
 
         RuleFor(x => x.Password)

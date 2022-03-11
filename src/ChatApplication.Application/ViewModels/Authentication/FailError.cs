@@ -2,9 +2,9 @@
 
 public class FailError
 {
-    public FailError(Error error)
+    public FailError(string message)
     {
-        Error = error;
+        Error = new Error(message);
     }
 
     public Error Error { get; set; }
