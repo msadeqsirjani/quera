@@ -21,6 +21,8 @@ public class GroupConfiguration : EntityConfiguration<Group>
 
         builder.Property(x => x.Description);
 
+        builder.Property(x => x.Date);
+
         builder.HasMany(x => x.GroupMembers)
             .WithOne(x => x.Group)
             .HasForeignKey(x => x.Id);

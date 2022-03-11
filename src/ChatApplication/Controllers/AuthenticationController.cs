@@ -16,6 +16,11 @@
             _memberService = memberService;
         }
 
+        /// <summary>
+        /// Sign up for new user
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
         [HttpPost("signup")]
         public async Task<IActionResult> SignIn(SignInDto parameter)
         {
@@ -24,6 +29,11 @@
             return !result.IsSuccess ? (IActionResult)BadRequest(result.Value) : (IActionResult)Ok(result.Value);
         }
 
+        /// <summary>
+        /// Login
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto parameter)
         {

@@ -1,6 +1,7 @@
 ﻿using ChatApplication.Application.Constants;
 using ChatApplication.Application.Exceptions;
 using ChatApplication.Application.Services;
+using ChatApplication.Application.ViewModels.Authentication;
 using ChatApplication.Domain.Common;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -44,7 +45,7 @@ public class ExceptionHandler
         {
             case UnAuthorizedException unAuthorizedException:
                 {
-                    context.Response.StatusCode = 401;
+                    context.Response.StatusCode = 400;
 
                     return context.Response.WriteAsync(
                         JsonConvert.SerializeObject(Result.WithException(unAuthorizedException.Message)));
@@ -53,7 +54,7 @@ public class ExceptionHandler
                 _logService.LogError(exception);
 
                 return context.Response.WriteAsync(_environment.IsDevelopment()
-                    ? JsonConvert.SerializeObject(Result.WithException(exception))
+                    ? JsonConvert.SerializeObject(new FailError(new Error("Bad request!")))
                     : JsonConvert.SerializeObject(Result.WithException(Statement.Failure)));
         }
     }

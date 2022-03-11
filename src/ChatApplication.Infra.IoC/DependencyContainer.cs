@@ -161,6 +161,10 @@ public static class DependencyContainer
                     new List<string>()
                 }
             });
+
+            const string xmlFile = "ChatApplication.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            options.IncludeXmlComments(xmlPath);
         });
     }
 
