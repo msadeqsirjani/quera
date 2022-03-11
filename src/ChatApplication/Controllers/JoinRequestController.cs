@@ -13,7 +13,7 @@ public class JoinRequestController : HomeController
         return Ok();
     }
 
-    [HttpGet]
+    [HttpPost]
     public async Task<IActionResult> SendJoinRequest()
     {
         return Ok();

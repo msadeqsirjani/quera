@@ -13,8 +13,8 @@ public class ChatController : HomeController
         return Ok();
     }
 
-    [HttpGet("/{uemberId:int}")]
-    public async Task<IActionResult> ShowChatMessages(int userId)
+    [HttpGet("/{memberId:int}")]
+    public async Task<IActionResult> ShowChatMessages(int memberId)
     {
         return Ok();
     }
